@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit</title>
+    <link rel="stylesheet" href="resources/css/main.css" />
+    <link rel="stylesheet" href="resources/css/edit.css" />
+    <link rel="stylesheet" href="resources/src/bootstrap-4.6.2/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="resources/src/fontawesome-free-6.3.0-web/css/all.css" />
+    <link
+      rel="stylesheet"
+      href="resources/src/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css"
+    />
+    <link
+            rel="stylesheet"
+            href="resources/src/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.standalone.css"
+    />
+    <link
+      rel="stylesheet"
+      href="resources/src/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="resources/src/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker3.standalone.min.css"
+    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+  </head>
+  <body>
+    <div class="main-container d-flex justify-content-center flex-wrap">
+      <div class="manipulation-bar bg-light p-2 border-shadow rounded w-100">
+        <div class="btn btn-light border-shadow">
+          <i class="fa-regular fa-floppy-disk"></i>保存
+        </div>
+        <div class="btn btn-light border-shadow back">
+          <i class="fa-solid fa-house"></i>主页
+        </div>
+      </div>
+      <div class="basic-info d-flex flex-wrap justify-content-center w-100">
+        <h4 class="w-100">基本信息</h4>
+        <div class="form-group w-35 row star-container mx-3">
+          <label for="client-name" class="input-name">客户名称</label>
+          <span
+            style="
+              color: red;
+              font-size: larger;
+              font-weight: bolder;
+              position: absolute;
+              left: 31%;
+            "
+            >*</span
+          >
+          <div class="input pl-3">
+            <input type="text" class="form-control bg-light" id="client-name" />
+          </div>
+          <div class="dropdown pl-0 input-btn">
+            <button
+              class="btn btn-light border-shadow"
+              type="button"
+              data-toggle="dropdown"
+              aria-expanded="false"
+            >
+              选择
+            </button>
+            <div class="dropdown-menu">
+              <!-- <button class="dropdown-item" type="button">公司1</button> -->
+            </div>
+          </div>
+        </div>
+        <div class="form-group w-35 row star-container mx-3">
+          <label for="nickname" class="col-4">客户简称</label>
+          <span
+            style="
+              color: red;
+              font-size: larger;
+              font-weight: bolder;
+              position: absolute;
+              left: 31%;
+            "
+            >*</span
+          >
+          <input
+            type="text"
+            class="form-control col-8 bg-light"
+            id="nickname"
+          />
+        </div>
+        <div class="form-group w-35 row mx-3">
+          <label for="project-name" class="col-4">项目名称</label>
+          <input
+            type="text"
+            class="form-control col-6 description bg-light"
+            id="project-name"
+          />
+          <div
+            class="btn col-1 p-0 border-shadow d-flex align-items-center justify-content-center"
+          >
+            选择
+          </div>
+          <div
+            class="btn col-1 p-0 border-shadow d-flex align-items-center justify-content-center"
+          >
+            清空
+          </div>
+        </div>
+        <div class="form-group w-35 row star-container mx-3">
+          <label for="circumstance" class="col-4">业务场景</label>
+          <span
+            style="
+              color: red;
+              font-size: larger;
+              font-weight: bolder;
+              position: absolute;
+              left: 31%;
+            "
+            >*</span
+          >
+          <select class="form-control col-8" id="circumstance">
+            <option value="">请选择</option>
+            <option value="尽职调查">尽职调查</option>
+            <option value="租期检查">租期检查</option>
+            <option value="签约现场">签约现场</option>
+            <option value="投标现场">投标现场</option>
+            <option value="拍卖现场">拍卖现场</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="form-group w-35 row star-container mx-3">
+          <label for="project-work-type" class="col-4">工作类型</label>
+          <span
+            style="
+              color: red;
+              font-size: larger;
+              font-weight: bolder;
+              position: absolute;
+              left: 31%;
+            "
+            >*</span
+          >
+          <select class="form-control col-8" id="project-work-type" value="押品办理">
+            <option value="">请选择</option>
+            <option value="项目营销">项目营销</option>
+            <option value="正式尽调">正式尽调</option>
+            <option value="权属办理">权属办理</option>
+            <option value="押品办理">押品办理</option>
+            <option value="其他">其他</option>
+          </select>
+        </div>
+        <div class="form-group w-35 row mx-3">
+          <label for="address" class="col-4">地点</label>
+          <input type="text" class="form-control col-8" id="address" />
+        </div>
+        <div class="form-group w-35 row position-relative mx-3">
+          <label for="begin-time" class="col-4">开始时间</label>
+          <input
+            type="text"
+            class="form-control col-7"
+            id="begin-time"
+            data-provide="datepicker"
+          />
+          <div class="input-group-addon col-1" id="start-time-btn"><span class="glyphicon glyphicon-th"></span>
+          </div>
+        </div>
+        <div class="form-group w-35 row position-relative mx-3">
+          <label for="end-time" class="col-4">结束时间</label>
+          <input
+            data-provide="datepicker"
+            class="form-control col-7"
+            id="end-time"
+          />
+          <div class="input-group-addon col-1" id="end-time-btn"><span class="glyphicon glyphicon-th"></span>
+          </div>
+        </div>
+        <div class="form-group w-35 row mx-3">
+          <label for="description" class="col-4">说明</label>
+          <textarea class="form-control col-8" id="description"> </textarea>
+        </div>
+        <div class="form-group w-35 row mx-3  "></div>
+      </div>
+      <div class="add-info d-flex flex-wrap justify-content-start mt-5 w-100">
+        <h4 class="w-100">人员信息</h4>
+        <div class="d-flex justify-content-start w-100">
+          <div class="mt-2">
+            <div class="btn border-shadow" id="add-info">
+              <i class="fa-solid fa-plus"></i>添加
+            </div>
+            <div class="btn border-shadow" id="delete-info">
+              <i class="fa-solid fa-trash-can"></i>删除
+            </div>
+          </div>
+        </div>
+
+        </div>
+      <div class="w-100 addition-info border-shadow p-3 d-flex flex-wrap justify-content-center row mt-3 mb-5">
+        <h4 class="w-100">调查内容</h4>
+        <div class="content-area row col-7 mt-3">
+          <label for="target" class="col-2">&nbsp;&nbsp;&nbsp;&nbsp;目标<br>(起因)</label>
+          <textarea id="target" class="col-10 form-control" placeholder="输入现场办公目标，即出差目的：如项目营销、尽职调查、权属确认（办理）、抵质押办理（调查）等等"></textarea>
+        </div>
+        <div class="content-area row col-7 mt-3">
+          <label for="content" class="col-2">&nbsp;&nbsp;&nbsp;&nbsp;内容<br>(经过)</label>
+          <textarea id="content" class="col-10 form-control" placeholder="输入现场办公的工作具体（或大致）内容，如谈判概况、信用风险或实物资产风险调查概况，抵质押物的检查或办理等（如适用）。"></textarea>
+        </div>
+        <div class="content-area row col-7 mt-3">
+          <label for="result" class="col-2">&nbsp;&nbsp;&nbsp;&nbsp;效果<br>(结果)</label>
+          <textarea id="result" class="col-10 form-control" placeholder="现场办公的阶段性成果，以及难点和下一步工作计划。"></textarea>
+        </div>
+      </div>
+      </div>
+  </body>
+  <script src="resources/src/jquery-3.6.3.min.js"></script>
+  <script src="resources/src/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+    integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
+    crossorigin="anonymous"
+  ></script>
+  <script src="resources/src/bootstrap-4.6.2/dist/js/bootstrap.js"></script>
+  <script src="resources/js/edit.js"></script>
+</html>

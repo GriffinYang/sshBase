@@ -1,0 +1,39 @@
+h4 {
+  padding-left: 1rem;
+  border-left: 5px solid #4f6ef2;
+}
+.w-35 {
+  width: 35% !important;
+}
+label {
+  text-align: right;
+}
+.name-group {
+  flex-grow: 1;
+}
+.input-name {
+  width: 31%;
+}
+.input {
+  width: 59%;
+}
+.input-btn {
+  width: 10%;
+}
+.star-container {
+  position: relative;
+}
+label {
+  font-weight: bolder;
+}
+.check-info{
+  top: 1rem;
+  left: 1rem;
+}
+.info,addition-info{
+  margin-top: 1.5rem;
+  border-radius: 1rem;
+}
+.dow,.next{
+  border-radius: 0 !important;
+}
