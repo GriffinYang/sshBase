@@ -28,12 +28,12 @@
           >
           <select class="form-control col-8" id="circumstance">
             <option value="" selected>请选择</option>
-            <option value="尽职调查" >尽职调查</option>
-            <option value="租期检查" >租期检查</option>
-            <option value="签约现场" >签约现场</option>
-            <option value="投标现场" >投标现场</option>
-            <option value="拍卖现场" >拍卖现场</option>
-            <option value="其他" >其他</option>
+            <option value="1" >尽职调查</option>
+            <option value="2" >租期检查</option>
+            <option value="3" >签约现场</option>
+            <option value="4" >投标现场</option>
+            <option value="5" >拍卖现场</option>
+            <option value="6" >其他</option>
           </select>
         </div>
         <div class="form-group col-3 row">
@@ -44,11 +44,11 @@
           >
           <select class="form-control col-8" id="work-type">
             <option value="" selected>请选择</option>
-            <option value="项目营销">项目营销</option>
-            <option value="正式尽调">正式尽调</option>
-            <option value="权属办理">权属办理</option>
-            <option value="押品管理">押品办理</option>
-            <option value="其他">其他</option>
+            <option value="1">项目营销</option>
+            <option value="2">正式尽调</option>
+            <option value="3">权属办理</option>
+            <option value="4">押品办理</option>
+            <option value="5">其他</option>
           </select>
         </div>
         <div class="form-group col-3 row">
@@ -108,9 +108,9 @@
           <div class="btn btn-light border-shadow" id="delete">
             <i class="fa-solid fa-trash-can"></i>删除
           </div>
-          <a href="http://localhost:8080/beta/fetch/export" class="btn btn-light border-shadow" id="export">
+          <button class="btn btn-light border-shadow" id="export">
             <i class="fa-solid fa-file-export"></i>导出
-          </a>
+          </button>
         </div>
         <div class="right-bar">
           <div class="btn btn-light border-shadow" id="conditional-query">
@@ -143,10 +143,10 @@
       <div id="page-container"></div>
     </div>
     <div id="layer" class="hidden">
-      <div id="pop-up" class="position-absolute d-flex p-3 border-shadow">
+      <div id="pop-up" class="position-fixed d-flex p-3 border-shadow">
         <p class="w-100 text-center mb-3" id="log">确认删除?</p>
         <div class="btn border-shadow btn-primary" id="ok" value="true">确定</div>
-        <div class="btn border-shadow btn-light" id="cancel" value="false">取消</div>
+        <div class="btn border-shadow btn-light hidden" id="cancel" value="false">取消</div>
       </div>
     </div>
   </body>

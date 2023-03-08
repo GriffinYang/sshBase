@@ -29,6 +29,7 @@ label {
 .check-info{
   top: 1rem;
   left: 1rem;
+  z-index: 999 !important;
 }
 .info,addition-info{
   margin-top: 1.5rem;
@@ -36,4 +37,7 @@ label {
 }
 .dow,.next{
   border-radius: 0 !important;
+}
+.data-error{
+  border-color: red !important;
 }

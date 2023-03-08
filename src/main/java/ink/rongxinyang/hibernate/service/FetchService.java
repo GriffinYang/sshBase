@@ -10,4 +10,5 @@ public interface FetchService {
 
     List fetchMainList(MainTable data);
     List fetchCombine(Integer id);
+    Boolean changeable(Integer id);
 }

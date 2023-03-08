@@ -48,9 +48,23 @@ deleteBtn.onclick=()=>{
     const layer=document.getElementById("layer")
     document.getElementById("log").innerHTML="确认删除?"
     layer.classList.remove("hidden")
+    document.getElementById("cancel").classList.remove("hidden")
     confirmTarget=deleteRecord;
 }
 const ok=document.getElementById("ok")
+const exportInfo=document.getElementById("export")
+exportInfo.addEventListener("click",(event)=>{
+  const aEle=document.createElement("a")
+  aEle.classList.add("hidden")
+  aEle.href="http://localhost:8080/beta/fetch/export"
+  const spanEle = document.createElement("span");
+  spanEle.textContent="download"
+  spanEle.id="download"
+  aEle.append(spanEle)
+  document.body.append(aEle)
+  $('#download').trigger("click");
+  $('#download').parent().remove();
+})
 ok.addEventListener("click",(e)=>{
   confirmFn(confirmTarget)
   const layer=document.getElementById("layer")
@@ -61,6 +75,7 @@ cancelFn.addEventListener("click",(e)=>{
   confirmFn(confirmTarget)
   const layer=document.getElementById("layer")
   layer.classList.add("hidden")
+  e.target.classList.add("hidden")
 })
 //实际方法区
 function confirmFn(fn){
@@ -71,22 +86,55 @@ function skipFn(){
 }
 function deleteRecord(){
   const del=document.querySelectorAll(".selected")
-  console.log(del)
   if (del.length==0)return
   selectIds.splice(0,selectIds.length)
   del.forEach(item=>{
     selectIds.push(item.getAttribute("recordId"))
   })
   let fetchParam="";
-  selectIds.forEach((item,index)=>{
-    if(index==0)fetchParam+=`?ids=${item}`
-    else fetchParam+=`&ids=${item}`
-  })
-  $.ajax({
-    url:`http://localhost:8080/beta/edit/delete${fetchParam}`,
-    success:()=>{
-      initialize()
-    }
+  let deletable=false;
+  let targetIds=[];
+  new Promise((resolve,reject)=>{
+    selectIds.forEach((item,index)=>{
+      $.ajax({
+        url:`http://localhost:8080/beta/fetch/currentStatus?id=${item}`,
+        success:(data)=>{
+          if(data.code==200){
+            targetIds.push(item)
+            if(index==0)fetchParam+=`?ids=${item}`
+            else fetchParam+=`&ids=${item}`
+            deletable=false;
+          }else{
+            deletable=true;
+          }
+          resolve()
+        }
+      })
+    })
+  }).then(()=>{
+    $.ajax({
+      url:`http://localhost:8080/beta/edit/delete${fetchParam}`,
+      success:()=>{
+        let ids = targetIds
+        del.forEach((item)=>{
+          let id=item.getAttribute("recordId")
+          if (ids.includes(id)) item.remove()
+          console.log(ids,id)
+          console.log(ids.includes(id))
+        })
+        if(deletable){
+          confirmTarget=skipFn;
+          $("#log").text("包含无法删除项(已完成项目)，已跳过！")
+          $("#layer").removeClass("hidden")
+        }
+      },
+      timeout:5000,
+      error:()=>{
+        confirmTarget=skipFn;
+        $("#log").text("更新失败！服务器异常")
+        $("#layer").removeClass("hidden")
+      }
+    })
   })
 }
 function initPageBar(current,total,num){
@@ -136,12 +184,49 @@ function initialize(){
         tr.append(endTime);
 
         const circumstance=document.createElement("td")
-        circumstance.textContent=record.circumstance
+        let cirStr=undefined;
+        switch (record.circumstance) {
+          case 1:
+            cirStr="尽职调查";
+            break;
+          case 2:
+            cirStr="租期检查";
+            break;
+          case 3:
+            cirStr="签约现场";
+            break;
+          case 4:
+            cirStr="投标现场";
+            break;
+          case 5:
+            cirStr="拍卖现场";
+            break;
+          case 6:
+            cirStr="其他";
+        }
+        circumstance.textContent=cirStr
         circumstance.classList.add("text-center")
         tr.append(circumstance)
 
+        let workTypeStr=undefined;
+        switch (record.workType){
+          case 1:
+            workTypeStr="项目营销";
+            break;
+          case 2:
+            workTypeStr="正式尽调";
+            break;
+          case 3:
+            workTypeStr="权属办理";
+            break;
+          case 4:
+            workTypeStr="押品办理";
+            break;
+          case 5:
+            workTypeStr="其他"
+        }
         const workType=document.createElement("td")
-        workType.textContent=record.workType
+        workType.textContent=workTypeStr
         workType.classList.add("text-center")
         tr.append(workType)
 
@@ -186,6 +271,12 @@ function initialize(){
             e.target.parentElement.parentElement.classList.remove("selected")
         }
       })
+    },
+    timeout:5000,
+    error:()=>{
+      confirmTarget=skipFn;
+      $("#log").text("更新失败！服务器异常")
+      $("#layer").removeClass("hidden")
     }
 
   })
@@ -233,12 +324,49 @@ function fetchTable(){
         tr.append(endTime);
 
         const circumstance=document.createElement("td")
-        circumstance.textContent=record.circumstance
+        let cirStr=undefined;
+        switch (record.circumstance) {
+          case 1:
+            cirStr="尽职调查";
+            break;
+          case 2:
+            cirStr="租期检查";
+            break;
+          case 3:
+            cirStr="签约现场";
+            break;
+          case 4:
+            cirStr="投标现场";
+            break;
+          case 5:
+            cirStr="拍卖现场";
+            break;
+          case 6:
+            cirStr="其他";
+        }
+        circumstance.textContent=cirStr
         circumstance.classList.add("text-center")
         tr.append(circumstance)
 
+        let workTypeStr=undefined;
+        switch (record.workType){
+          case 1:
+            workTypeStr="项目营销";
+            break;
+          case 2:
+            workTypeStr="正式尽调";
+            break;
+          case 3:
+            workTypeStr="权属办理";
+            break;
+          case 4:
+            workTypeStr="押品办理";
+            break;
+          case 5:
+            workTypeStr="其他"
+        }
         const workType=document.createElement("td")
-        workType.textContent=record.workType
+        workType.textContent=workTypeStr
         workType.classList.add("text-center")
         tr.append(workType)
 
@@ -282,6 +410,12 @@ function fetchTable(){
             e.target.parentElement.parentElement.classList.remove("selected")
         }
       })
+    },
+    timeout:5000,
+    error:()=>{
+      confirmTarget=skipFn;
+      $("#log").text("更新失败！服务器异常")
+      $("#layer").removeClass("hidden")
     }
   })
 }

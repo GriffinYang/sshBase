@@ -22,7 +22,7 @@ public class FetchController {
     @Autowired
     private ExcelHelper helper;
     @RequestMapping("main")
-    public Response fetchMain(@RequestParam(required = false)Integer from,@RequestParam(required = false)Integer number,@RequestParam(required = false) String clientName,@RequestParam(required = false) String circumstance,@RequestParam(required = false) String workType,@RequestParam(required = false) String status,@RequestParam(required = false) String chief,@RequestParam(required = false) String department){
+    public Response fetchMain(@RequestParam(required = false)Integer from,@RequestParam(required = false)Integer number,@RequestParam(required = false) String clientName,@RequestParam(required = false) Integer circumstance,@RequestParam(required = false) Integer workType,@RequestParam(required = false) String status,@RequestParam(required = false) String chief,@RequestParam(required = false) String department){
         Response response = new Response();
         MainTable data = new MainTable();
         data.setFrom((from-1)*number);
@@ -64,6 +64,24 @@ public class FetchController {
             e.printStackTrace();
             response.setCode(500);
             response.setMsg("fail");
+        }
+        return response;
+    }
+    @RequestMapping("currentStatus")
+    public Response currentStatus(Integer id){
+        Response response = new Response();
+        if (id==-1){
+            response.setCode(200);
+            response.setMsg("changeable");
+            return response;
+        }
+        Boolean changeable = service.changeable(id);
+        if(changeable){
+            response.setCode(200);
+            response.setMsg("changeable");
+        }else{
+            response.setCode(500);
+            response.setMsg("unchangeable");
         }
         return response;
     }

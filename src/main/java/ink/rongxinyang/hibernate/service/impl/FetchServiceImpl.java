@@ -1,7 +1,6 @@
 package ink.rongxinyang.hibernate.service.impl;
 
 import ink.rongxinyang.hibernate.entity.MainTable;
-import ink.rongxinyang.hibernate.entity.StaffInfo;
 import ink.rongxinyang.hibernate.service.FetchService;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -60,6 +59,14 @@ public class FetchServiceImpl implements FetchService {
         query.setParameter("id",id);
         List list = query.list();
         return list;
+    }
+
+    @Override
+    public Boolean changeable(Integer id) {
+        Session session = sessionFactory.openSession();
+        MainTable mainTable = session.get(MainTable.class, id);
+        if(mainTable.getStatus()==0)return true;
+        else return false;
     }
 
     private Criteria queryAll(MainTable data,Session session) {

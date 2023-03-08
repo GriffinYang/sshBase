@@ -29,7 +29,7 @@ public class ExcelTest {
         writer.merge(0,0,0,3,null,false);
         writer.merge(1,1,0,3,null,false);
         writer.merge(2,2,0,3,null,false);
-        writer.merge(3,3,0,3,null,false);
+//        writer.merge(3,3,0,3,null,false);
         writer.merge(5,6,0,0,null,false);
         writer.merge(7,8,0,0,null,false);
         writer.merge(9,9,1,3,null,false);

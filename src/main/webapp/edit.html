@@ -30,14 +30,14 @@
   <body>
     <div class="main-container d-flex justify-content-center flex-wrap">
       <div class="manipulation-bar bg-light p-2 border-shadow rounded w-100">
-        <div class="btn btn-light border-shadow">
-          <i class="fa-regular fa-floppy-disk"></i>保存
+        <div class="btn btn-light border-shadow" id="saveBtn">
+          <i class="fa-regular fa-floppy-disk" ></i>保存
         </div>
         <div class="btn btn-light border-shadow back">
           <i class="fa-solid fa-house"></i>主页
         </div>
       </div>
-      <div class="basic-info d-flex flex-wrap justify-content-center w-100">
+      <div class="basic-info d-flex flex-wrap justify-content-center w-100" id="baseInfo">
         <h4 class="w-100">基本信息</h4>
         <div class="form-group w-35 row star-container mx-3">
           <label for="client-name" class="input-name">客户名称</label>
@@ -118,12 +118,12 @@
           >
           <select class="form-control col-8" id="circumstance">
             <option value="">请选择</option>
-            <option value="尽职调查">尽职调查</option>
-            <option value="租期检查">租期检查</option>
-            <option value="签约现场">签约现场</option>
-            <option value="投标现场">投标现场</option>
-            <option value="拍卖现场">拍卖现场</option>
-            <option value="其他">其他</option>
+            <option value="1">尽职调查</option>
+            <option value="2">租期检查</option>
+            <option value="3">签约现场</option>
+            <option value="4">投标现场</option>
+            <option value="5">拍卖现场</option>
+            <option value="6">其他</option>
           </select>
         </div>
         <div class="form-group w-35 row star-container mx-3">
@@ -140,11 +140,11 @@
           >
           <select class="form-control col-8" id="project-work-type" value="押品办理">
             <option value="">请选择</option>
-            <option value="项目营销">项目营销</option>
-            <option value="正式尽调">正式尽调</option>
-            <option value="权属办理">权属办理</option>
-            <option value="押品办理">押品办理</option>
-            <option value="其他">其他</option>
+            <option value="1">项目营销</option>
+            <option value="2">正式尽调</option>
+            <option value="3">权属办理</option>
+            <option value="4">押品办理</option>
+            <option value="5">其他</option>
           </select>
         </div>
         <div class="form-group w-35 row mx-3">
@@ -172,6 +172,23 @@
           <div class="input-group-addon col-1" id="end-time-btn"><span class="glyphicon glyphicon-th"></span>
           </div>
         </div>
+
+        <div class="form-group w-35 row  mx-3 row">
+          <label for="department" class="col-4">部门</label>
+            <input type="text" class="form-control bg-light col-8" id="department" />
+        </div>
+        <div class="form-group w-35 row  mx-3 row">
+          <label for="chief" class="col-4">负责人</label>
+            <input type="text" class="form-control bg-light col-8" id="chief" />
+        </div>
+        <div class="form-group w-35 row  mx-3 row">
+          <label for="status" class="col-4">状态</label>
+            <select class="form-control bg-light col-8" id="status">
+              <option value="0">进行中</option>
+              <option value="1">已完成</option>
+            </select>
+        </div>
+
         <div class="form-group w-35 row mx-3">
           <label for="description" class="col-4">说明</label>
           <textarea class="form-control col-8" id="description"> </textarea>
@@ -207,10 +224,18 @@
           <textarea id="result" class="col-10 form-control" placeholder="现场办公的阶段性成果，以及难点和下一步工作计划。"></textarea>
         </div>
       </div>
+      <div id="layer" class="hidden">
+        <div id="pop-up" class="position-fixed d-flex p-3 border-shadow">
+          <p class="w-100 text-center mb-3" id="log">确认删除?</p>
+          <div class="btn border-shadow btn-primary" id="ok" value="true">确定</div>
+          <div class="btn border-shadow btn-light hidden" id="cancel" value="false">取消</div>
+        </div>
+      </div>
       </div>
   </body>
   <script src="resources/src/jquery-3.6.3.min.js"></script>
   <script src="resources/src/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
+  <script src="resources/src/bootstrap-datepicker-1.9.0-dist/locales/bootstrap-datepicker.zh-CN.min.js"></script>
   <script
     src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
     integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
