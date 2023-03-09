@@ -514,32 +514,10 @@ function updateMain(main){
     },
     success:(data)=>{
       targetId=data.data
+      let times=1;
       $(".staff").each((i)=>{
-          let element = document.querySelectorAll(".staff");
-          const id=element[i].getAttribute("staffid")
-          const staff=$(element[i])
-          $.ajax({
-            type: 'post',
-            url: "http://localhost:8080/beta/edit/updateStaff",
-            data:{
-              "staffId":id,
-              "key":targetId,
-              "staffType":staff.find("#staff-type").val(),
-              "staffName":staff.find("#staff-name").val(),
-              "identity":staff.find("#staff-identity").val(),
-              "post":staff.find("#post").val(),
-              "contact":staff.find("#contact").val(),
-              "orgName": staff.find("#staff-type").val()!="2"?staff.find("#org-name").val():staff.find("#company-branch").val(),
-              "staff_dept":staff.find("#department").val(),
-              "order":generateOrder()
-            },
-            success:(data)=>{
-              if(data.code==200){
-                confirmTarget=refreshPage(targetId);
-              }
-            },
-
-          });
+        setTimeout(updateAllStaff(i),100*times)
+        times++;
       })
     },
   });
@@ -579,7 +557,7 @@ function assessData(){
 }
 function removeStaff(){
   staffElement.forEach(item=>{
-    if(item.id==-1){
+    if(item.id=="emptyId"){
       item.obj.remove()
       return
     }
@@ -610,4 +588,31 @@ function saveAll(){
 }
 function generateOrder(){
   return new Date().getTime()
+}
+function updateAllStaff(i){
+  let order=generateOrder();
+  let element = document.querySelectorAll(".staff");
+  const id=element[i].getAttribute("staffid")
+  const staff=$(element[i])
+  $.ajax({
+    type: 'post',
+    url: "http://localhost:8080/beta/edit/updateStaff",
+    data:{
+      "staffId":id,
+      "key":targetId,
+      "staffType":staff.find("#staff-type").val(),
+      "staffName":staff.find("#staff-name").val(),
+      "identity":staff.find("#staff-identity").val(),
+      "post":staff.find("#post").val(),
+      "contact":staff.find("#contact").val(),
+      "orgName": staff.find("#staff-type").val()!="2"?staff.find("#org-name").val():staff.find("#company-branch").val(),
+      "staff_dept":staff.find("#department").val(),
+      "order":order
+    },
+    success:(data)=>{
+      if(data.code==200){
+        confirmTarget=refreshPage(targetId);
+      }
+    },
+  });
 }

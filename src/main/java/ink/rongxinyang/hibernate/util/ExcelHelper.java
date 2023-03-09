@@ -35,10 +35,10 @@ public class ExcelHelper {
         List<MainTable> list = service.fetchMainList(data);
         List<MainExcel> excel=new ArrayList<>();
         AtomicReference<Integer> index= new AtomicReference<>(1);
-        String primary="";
-        String secondary="";
-        String others="";
         for (MainTable i:list){
+            String primary="";
+            String secondary="";
+            String others="";
             String start = simpleDateFormat.format(i.getStartTime());
             String end = simpleDateFormat.format(i.getEndTime());
             String create = simpleDateFormat.format(i.getCreateTime());
@@ -88,21 +88,16 @@ public class ExcelHelper {
             query.setParameter("id",i.getId());
             List<StaffInfo> staffs = query.list();
             for(StaffInfo staff:staffs) {
-                if (staff.getIdentity().equals("第一调查人"))
+                if (staff.getIdentity().equals("1"))
                     primary += staff.getStaffName();
-                else if(staff.getIdentity().equals("第二调查人"))
+                else if(staff.getIdentity().equals("2"))
                     secondary+=staff.getStaffName();
                 else
                     others+=staff.getStaffName()+",";
             }
                 excel.add(new MainExcel(index.get(),i.getClientName(),i.getStart(),i.getEnd(),circumstance,workType,i.getStatus()==0?"执行中":"已完成",i.getChief(),i.getDepartment(),i.getCreate(),primary,secondary,others,i.getPurpose(),i.getContent(),i.getResult()));
             index.getAndSet(index.get() + 1);
-        };
-//        String[] splitAlpha = primary.split(";");
-//        String[] splitBeta = secondary.split(";");
-//        String[] splitGama = others.split(";");
-//        Integer len=(splitAlpha.length>splitBeta.length?splitAlpha.length:splitBeta.length);
-//        Integer maxLen=len>splitGama.length?len:splitGama.length;
+        }
         ExcelWriter writer = ExcelUtil.getBigWriter();
         writer.addHeaderAlias("index","序号");
         writer.addHeaderAlias("clientName","客户名称");
