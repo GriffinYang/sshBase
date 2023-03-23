@@ -59,8 +59,8 @@
           >
           <select class="form-control col-8" id="status">
             <option value="" selected>请选择</option>
-            <option value="执行中">执行中</option>
-            <option value="已完成">已完成</option>
+            <option value="0">执行中</option>
+            <option value="1">已完成</option>
           </select>
         </div>
         <div class="form-group col-3 row">
@@ -141,6 +141,7 @@
         <tbody></tbody>
       </table>
       <div id="page-container"></div>
+      <h3 id="none-data" class="text-center pt-2 pb-2 text-white bg-info hidden">没有匹配的数据!</h3>
     </div>
     <div id="layer" class="hidden">
       <div id="pop-up" class="position-fixed d-flex p-3 border-shadow">
@@ -157,5 +158,6 @@
     crossorigin="anonymous"
   ></script>
   <script src="resources/src/bootstrap-4.6.2/dist/js/bootstrap.js"></script>
+  <script src="resources/js/pagination.js"></script>
   <script src="resources/js/index.js"></script>
 </html>

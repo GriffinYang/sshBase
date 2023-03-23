@@ -2,7 +2,7 @@
 const home = document.querySelector('.back');
 const date=new Date()
 let confirmTarget;
-let staffId;
+let staffUpdated=0;
 let staffElement=[];
 home.onclick = () => {
   window.open('index.html',"_self");
@@ -165,18 +165,28 @@ let contentTemplate=`
 `
 let targetObj={mainInfo:undefined,staffInfo:[]};
 let targetId=window.location.href.trim().split("=")[1]?window.location.href.trim().split("=")[1]:-1;
-let beginDateTime;
-let endDateTime;
+let beginDateTime=undefined;
+let endDateTime=undefined;
+let scrollNum=1;
 // 事件绑定区
 $(function (){
+  $("#clear-name").click((e)=>{
+    e.target.previousElementSibling.previousElementSibling.value=""
+  })
   $("#begin-time").change((e)=>{
     const begin=$(e.target)
     beginDateTime= new Date(begin.val());
     $("#end-time").val(parseDate(beginDateTime))
+    if($("#end-time").val()!=""){
+      confirmTarget=skipFn;
+      $("#log").text("已将结束日期设置为开始日期")
+      $("#layer").removeClass("hidden")
+    }
   })
   $('#end-time').change((e)=>{
     const end=$(e.target);
     endDateTime= new Date(end.val());
+    if(beginDateTime==undefined) return;
     if (endDateTime.getTime()<beginDateTime.getTime()){
       end.addClass("data-error")
       confirmTarget=skipFn;
@@ -362,6 +372,8 @@ $(function (){
             }else $("#add-info").removeClass("disabled")
             const ele=$(contentTemplate)
             ele.attr("staffid","emptyId")
+            window.scrollTo(0,50*scrollNum)
+            scrollNum++
             $(".add-info").append(ele)
 
             ele.find("#identity").change((e)=>{
@@ -435,6 +447,8 @@ $(function (){
       })
   })
   $("#delete-info").click(()=> {
+    if(scrollNum!=1)
+    scrollNum--
     $.ajax({
       url:`http://localhost:8080/beta/fetch/currentStatus?id=${targetId}`,
       success:(data)=>{
@@ -487,9 +501,12 @@ $(function (){
 function parseDate(date){
   return `${new Date(date).getFullYear()}/${new Date(date).getMonth()+1}/${new Date(date).getDate()}`
 }
-function refreshPage(id){
-  window.open(`edit.html?id=${id}`,"_self")
+function refreshPage(){
+  window.open(`edit.html?id=${targetId}`,"_self")
 }
+let curI;
+let staffLength;
+
 function updateMain(main){
   $.ajax({
     type: 'post',
@@ -514,15 +531,56 @@ function updateMain(main){
     },
     success:(data)=>{
       targetId=data.data
-      let times=1;
-      $(".staff").each((i)=>{
-        setTimeout(updateAllStaff(i),100*times)
-        times++;
-      })
+      curI=0;
+      staffLength=document.querySelectorAll(".staff").length
+      iterateFn(new Promise((resolve,reject)=>{
+        resolve('success')
+      }),staffLength)
     },
   });
 }
-
+function iterateFn(fn,len) {
+  console.log('enter iteration')
+  console.log(curI,staffLength)
+  if (curI < staffLength)
+    fn.then((data) => {
+      setTimeout(iterateFn(
+          new Promise((resolve, reject) => {
+            let element = document.querySelectorAll(".staff");
+            const id=element[curI].getAttribute("staffid")
+            const staff=$(element[curI])
+            const order=generateOrder()
+            $.ajax({
+              type: 'post',
+              url: "http://localhost:8080/beta/edit/updateStaff",
+              data:{
+                "staffId":id,
+                "key":targetId,
+                "staffType":staff.find("#staff-type").val(),
+                "staffName":staff.find("#staff-name").val(),
+                "identity":staff.find("#staff-identity").val(),
+                "post":staff.find("#post").val(),
+                "contact":staff.find("#contact").val(),
+                "orgName": staff.find("#staff-type").val()!="2"?staff.find("#org-name").val():staff.find("#company-branch").val(),
+                "staff_dept":staff.find("#department").val(),
+                "order":order
+              },
+              success:(data)=>{
+                if(data.code==200){
+                  if(curI==len-1){
+                    confirmTarget=refreshPage;
+                    $("#log").text("更新成功！")
+                    $("#layer").removeClass("hidden")
+                  }
+                }
+                curI++;
+                resolve('success')
+              },
+            });
+          }),len
+      ),200);
+    }).catch((data) => {});
+}
 function confirmFn(fn,param){
   return fn(param)
 }
@@ -556,6 +614,7 @@ function assessData(){
   return true;
 }
 function removeStaff(){
+  $("#add-info").removeClass("disabled")
   staffElement.forEach(item=>{
     if(item.id=="emptyId"){
       item.obj.remove()
@@ -589,7 +648,7 @@ function saveAll(){
 function generateOrder(){
   return new Date().getTime()
 }
-function updateAllStaff(i){
+function updateAllStaff(i,len){
   let order=generateOrder();
   let element = document.querySelectorAll(".staff");
   const id=element[i].getAttribute("staffid")
@@ -611,7 +670,11 @@ function updateAllStaff(i){
     },
     success:(data)=>{
       if(data.code==200){
-        confirmTarget=refreshPage(targetId);
+        if(i==len-1){
+          confirmTarget=refreshPage;
+          $("#log").text("更新成功！")
+          $("#layer").removeClass("hidden")
+        }
       }
     },
   });

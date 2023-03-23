@@ -71,8 +71,10 @@ public class FetchServiceImpl implements FetchService {
 
     private Criteria queryAll(MainTable data,Session session) {
         Criteria criteria = session.createCriteria(MainTable.class);
+
+        System.out.println("status==>"+data.getStatus());
         if (include(data.getClientName()))
-            criteria.add(Restrictions.eq("clientName",data.getClientName()));
+            criteria.add(Restrictions.ilike("clientName","%"+data.getClientName().trim()+"%"));
         if(include(data.getCircumstance()))
             criteria.add(Restrictions.eq("circumstance",data.getCircumstance()));
         if(include(data.getWorkType()))
@@ -80,9 +82,9 @@ public class FetchServiceImpl implements FetchService {
         if(include(data.getStatus()))
             criteria.add(Restrictions.eq("status",data.getStatus()));
         if(include(data.getDepartment()))
-            criteria.add(Restrictions.eq("department",data.getDepartment()));
+            criteria.add(Restrictions.ilike("department","%"+data.getDepartment().trim()+"%"));
         if(include(data.getDepartment()))
-            criteria.add(Restrictions.eq("chief",data.getChief()));
+            criteria.add(Restrictions.ilike("chief","%"+data.getChief().trim()+"%"));
         criteria.addOrder(Order.desc("createTime"));
         return criteria;
     }

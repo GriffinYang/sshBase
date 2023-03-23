@@ -41,3 +41,9 @@ label {
 .data-error{
   border-color: red !important;
 }
+body{
+  transition: all 0.3s ease-in-out;
+}
+textarea{
+  resize: none;
+}

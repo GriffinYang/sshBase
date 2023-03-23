@@ -6,6 +6,7 @@ import ink.rongxinyang.hibernate.util.ExcelHelper;
 import ink.rongxinyang.hibernate.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +23,7 @@ public class FetchController {
     @Autowired
     private ExcelHelper helper;
     @RequestMapping("main")
-    public Response fetchMain(@RequestParam(required = false)Integer from,@RequestParam(required = false)Integer number,@RequestParam(required = false) String clientName,@RequestParam(required = false) Integer circumstance,@RequestParam(required = false) Integer workType,@RequestParam(required = false) String status,@RequestParam(required = false) String chief,@RequestParam(required = false) String department){
+    public Response fetchMain(@RequestParam(required = false)Integer from,@RequestParam(required = false)Integer number,@RequestParam(required = false) String clientName,@RequestParam(required = false) Integer circumstance,@RequestParam(required = false) Integer workType,@RequestParam(required = false) Integer status,@RequestParam(required = false) String chief,@RequestParam(required = false) String department){
         Response response = new Response();
         MainTable data = new MainTable();
         data.setFrom((from-1)*number);
@@ -30,8 +31,8 @@ public class FetchController {
         data.setClientName(clientName);
         data.setCircumstance(circumstance);
         data.setWorkType(workType);
-        if (!status.trim().equals(""))
-        data.setStatus(status.equals("已完成")?1:0);
+        if (status!=null)
+        data.setStatus(status);
         data.setChief(chief);
         data.setDepartment(department);
         List list = service.fetchMainList(data);
