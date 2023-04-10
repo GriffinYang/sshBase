@@ -1,12 +1,16 @@
 // 配置区
+/*返回主页的按钮*/
 const home = document.querySelector('.back');
 const date=new Date()
+/*弹出框的中间变量*/
 let confirmTarget;
-let staffUpdated=0;
+/*选中的员工元素*/
 let staffElement=[];
+/*添加返回主页的事件*/
 home.onclick = () => {
   window.open('index.html',"_self");
 };
+/*初始化开始时间*/
 $('#begin-time').datepicker({
   format: 'yyyy/mm/dd',
   autoclose: true,
@@ -15,6 +19,7 @@ $('#begin-time').datepicker({
   todayHighlight:true,
   language:'zh-CN'
 });
+/*初始化结束时间*/
 $('#end-time').datepicker({
   format: 'yyyy/mm/dd',
   autoclose: true,
@@ -23,16 +28,19 @@ $('#end-time').datepicker({
   todayHighlight: true,
   language:'zh-CN'
 });
+/*添加弹出框取消按钮的事件*/
 $("#cancel").click(()=>{
   $("#layer").addClass("hidden")
   $("#cancel").addClass("hidden")
 })
+/*添加弹出框确认的事件*/
 $("#ok").click(()=>{
   $("#layer").addClass("hidden")
   $("#cancel").addClass("hidden")
   return confirmFn(confirmTarget)
 })
 //全局变量区
+/*员工项的模板*/
 let contentTemplate=`
         <div class="w-100 d-flex flex-wrap justify-content-start info border-shadow position-relative staff" id="staff-info">
           <input type="checkbox" class="check-info position-absolute" />
@@ -163,16 +171,42 @@ let contentTemplate=`
           </div>
         </div>
 `
+/*目标的员工对象*/
 let targetObj={mainInfo:undefined,staffInfo:[]};
+/*获取当前所修改的主表的id*/
 let targetId=window.location.href.trim().split("=")[1]?window.location.href.trim().split("=")[1]:-1;
+/*开始日期*/
 let beginDateTime=undefined;
+/*结束日期*/
 let endDateTime=undefined;
+/*滚动事件的次数*/
 let scrollNum=1;
 // 事件绑定区
+/*入口函数*/
 $(function (){
+  /*清空按钮*/
   $("#clear-name").click((e)=>{
     e.target.previousElementSibling.previousElementSibling.value=""
   })
+  /*为可选按钮添加事件*/
+  $("#client-name").change((e)=>{
+    if(e.target.value.trim()!="")
+      e.target.classList.remove("data-error")
+  })
+  $("#nickname").change((e)=>{
+    if(e.target.value.trim()!="")
+      e.target.classList.remove("data-error")
+  })
+  $("#project-work-type").change((e)=>{
+    if(e.target.value.trim()!="")
+      e.target.classList.remove("data-error")
+  })
+  $("#circumstance").change((e)=>{
+    if(e.target.value.trim()!="")
+      e.target.classList.remove("data-error")
+  })
+
+  /*为开始日期添加事件*/
   $("#begin-time").change((e)=>{
     const begin=$(e.target)
     beginDateTime= new Date(begin.val());
@@ -183,6 +217,7 @@ $(function (){
       $("#layer").removeClass("hidden")
     }
   })
+  /*为结束时间添加事件*/
   $('#end-time').change((e)=>{
     const end=$(e.target);
     endDateTime= new Date(end.val());
@@ -201,6 +236,7 @@ $(function (){
   $("#end-time-btn").click((e)=>{
     $(e.currentTarget).prev().trigger("select")
   })
+  /*获取主表和从表的全部数据*/
   $.ajax({
     url:`http://localhost:8080/beta/fetch/fetchCombine?id=${targetId}`,
     success:(resp)=>{
@@ -357,6 +393,7 @@ $(function (){
       return
     }
   })
+  /*为添加员工添加事件*/
   $("#add-info").click(()=>{
       $.ajax({
         url:`http://localhost:8080/beta/fetch/currentStatus?id=${targetId}`,
@@ -446,6 +483,7 @@ $(function (){
         }
       })
   })
+  /*为删除员工添加事件*/
   $("#delete-info").click(()=> {
     if(scrollNum!=1)
     scrollNum--
@@ -477,6 +515,7 @@ $(function (){
       }
     });
   })
+  /*为保存按钮添加事件*/
   $("#saveBtn").click(()=>{
     $.ajax({
       url:`http://localhost:8080/beta/fetch/currentStatus?id=${targetId}`,
@@ -498,15 +537,19 @@ $(function (){
 })
 
 //方法区
+/*封装的日期格式转换的方法*/
 function parseDate(date){
   return `${new Date(date).getFullYear()}/${new Date(date).getMonth()+1}/${new Date(date).getDate()}`
 }
+/*刷新当前页面*/
 function refreshPage(){
   window.open(`edit.html?id=${targetId}`,"_self")
 }
+/*当前的idx*/
 let curI;
+/*选取的员工数组的长度*/
 let staffLength;
-
+/*更新主表*/
 function updateMain(main){
   $.ajax({
     type: 'post',
@@ -539,9 +582,8 @@ function updateMain(main){
     },
   });
 }
+/*将异步请求依序发送*/
 function iterateFn(fn,len) {
-  console.log('enter iteration')
-  console.log(curI,staffLength)
   if (curI < staffLength)
     fn.then((data) => {
       setTimeout(iterateFn(
@@ -581,22 +623,28 @@ function iterateFn(fn,len) {
       ),200);
     }).catch((data) => {});
 }
+/*弹出框的中间函数*/
 function confirmFn(fn,param){
   return fn(param)
 }
+/*定义不执行任何操作的跳过函数*/
 function skipFn() {
 
 }
+/*检查data是否为空值*/
 function assessData(){
   let clientName = $("#client-name").val();
   let nickName=$("#nickname").val();
   let circumstance=$("#circumstance").val();
   let workType=$("#project-work-type").val();
   if (clientName.trim()=="")$("#client-name").addClass("data-error")
+  else $("#client-name").removeClass("data-error")
   if (nickName.trim()=="")$("#nickname").addClass("data-error")
+  else $("#nickname").removeClass("data-error")
   if (circumstance.trim()=="")$("#circumstance").addClass("data-error")
+  else $("#circumstance").removeClass("data-error")
   if (workType.trim()=="")$("#project-work-type").addClass("data-error")
-  console.log($(".staff-type").parent(".staff"))
+  else $("#project-work-type").removeClass("data-error")
   $(".staff-type").each((index,item)=>{
     if($(item).val().trim()==""){
       $(item).addClass("data-error")
@@ -604,6 +652,7 @@ function assessData(){
       if($(item).val().trim()=="我司员工"){
         const ele=$(item).closest("#staff-info").find("#staff-identity")
         if (ele.val().trim()=="")ele.addClass("data-error")
+        else ele.removeClass("data-error")
       }
     }
   })
@@ -613,6 +662,7 @@ function assessData(){
   }
   return true;
 }
+/*溢出员工*/
 function removeStaff(){
   $("#add-info").removeClass("disabled")
   staffElement.forEach(item=>{
@@ -636,46 +686,56 @@ function removeStaff(){
     })
   })
 }
+/*保存数据*/
 function saveAll(){
-  if (assessData())
+  if (assessData()) {
+    if(!$("#baseInfo").find("#begin-time").val()||!$("#baseInfo").find("#end-time").val())
+    {
+      confirmTarget=skipFn;
+      $("#log").text("请指定开始和结束日期！")
+      $("#layer").removeClass("hidden")
+      return
+    }
     updateMain($("#baseInfo"))
+  }
   else{
     confirmTarget=skipFn;
     $("#log").text("请保证表单数据正常！")
     $("#layer").removeClass("hidden")
   }
 }
+/*生成顺序(依据事件戳）*/
 function generateOrder(){
   return new Date().getTime()
 }
-function updateAllStaff(i,len){
-  let order=generateOrder();
-  let element = document.querySelectorAll(".staff");
-  const id=element[i].getAttribute("staffid")
-  const staff=$(element[i])
-  $.ajax({
-    type: 'post',
-    url: "http://localhost:8080/beta/edit/updateStaff",
-    data:{
-      "staffId":id,
-      "key":targetId,
-      "staffType":staff.find("#staff-type").val(),
-      "staffName":staff.find("#staff-name").val(),
-      "identity":staff.find("#staff-identity").val(),
-      "post":staff.find("#post").val(),
-      "contact":staff.find("#contact").val(),
-      "orgName": staff.find("#staff-type").val()!="2"?staff.find("#org-name").val():staff.find("#company-branch").val(),
-      "staff_dept":staff.find("#department").val(),
-      "order":order
-    },
-    success:(data)=>{
-      if(data.code==200){
-        if(i==len-1){
-          confirmTarget=refreshPage;
-          $("#log").text("更新成功！")
-          $("#layer").removeClass("hidden")
-        }
-      }
-    },
-  });
-}
+// function updateAllStaff(i,len){
+//   let order=generateOrder();
+//   let element = document.querySelectorAll(".staff");
+//   const id=element[i].getAttribute("staffid")
+//   const staff=$(element[i])
+//   $.ajax({
+//     type: 'post',
+//     url: "http://localhost:8080/beta/edit/updateStaff",
+//     data:{
+//       "staffId":id,
+//       "key":targetId,
+//       "staffType":staff.find("#staff-type").val(),
+//       "staffName":staff.find("#staff-name").val(),
+//       "identity":staff.find("#staff-identity").val(),
+//       "post":staff.find("#post").val(),
+//       "contact":staff.find("#contact").val(),
+//       "orgName": staff.find("#staff-type").val()!="2"?staff.find("#org-name").val():staff.find("#company-branch").val(),
+//       "staff_dept":staff.find("#department").val(),
+//       "order":order
+//     },
+//     success:(data)=>{
+//       if(data.code==200){
+//         if(i==len-1){
+//           confirmTarget=refreshPage;
+//           $("#log").text("更新成功！")
+//           $("#layer").removeClass("hidden")
+//         }
+//       }
+//     },
+//   });
+// }

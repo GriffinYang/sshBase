@@ -52,6 +52,7 @@ function generateBtn(current, max, min, parent, fn, err) {
   }
   max = min + middle - 1;
   if (max > total) max = total;
+  if (parent==null)return
   parent.innerHTML = '';
   const first = document.createElement('button');
   first.textContent = '首页';
@@ -101,6 +102,10 @@ function generateBtn(current, max, min, parent, fn, err) {
   }
   container.append(next);
   container.append(last);
+  const num = document.createElement('span');
+  num.innerHTML=`${current_page}/${total}`;
+  num.classList.add("btn")
+  container.append(num)
   parent.append(container);
   eventAdd(fn);
 }

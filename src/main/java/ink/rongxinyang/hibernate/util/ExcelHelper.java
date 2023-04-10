@@ -30,9 +30,8 @@ public class ExcelHelper {
     private  FetchService service;
     @Autowired
     private SessionFactory factory;
-    public void exportExcel(HttpServletResponse response){
-        MainTable data = new MainTable();
-        List<MainTable> list = service.fetchMainList(data);
+    public void exportExcel(HttpServletResponse response,MainTable mainTable){
+        List<MainTable> list = service.fetchMainList(mainTable);
         List<MainExcel> excel=new ArrayList<>();
         AtomicReference<Integer> index= new AtomicReference<>(1);
         for (MainTable i:list){

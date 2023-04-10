@@ -25,8 +25,9 @@ public class FetchServiceImpl implements FetchService {
     public List fetchMainList(MainTable data) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         List<MainTable> list =null;
+        Session session=null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             Criteria criteria = queryAll(data, session);
             Long total = (Long) criteria.setProjection(Projections.rowCount()).uniqueResult();
             criteria.setProjection(null);
@@ -48,6 +49,7 @@ public class FetchServiceImpl implements FetchService {
             e.printStackTrace();
             return null;
         }
+        session.close();
         return list;
     }
 
@@ -58,6 +60,7 @@ public class FetchServiceImpl implements FetchService {
         Query query = session.createQuery(combine);
         query.setParameter("id",id);
         List list = query.list();
+        session.close();
         return list;
     }
 
@@ -65,6 +68,7 @@ public class FetchServiceImpl implements FetchService {
     public Boolean changeable(Integer id) {
         Session session = sessionFactory.openSession();
         MainTable mainTable = session.get(MainTable.class, id);
+        session.close();
         if(mainTable.getStatus()==0)return true;
         else return false;
     }

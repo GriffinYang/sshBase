@@ -21,9 +21,13 @@ public class ManipulationServiceImpl implements ManipulationService {
     private SessionFactory sessionFactory;
     @Override
     public boolean remove(Integer[] ids) {
+        Session session=null;
+        Transaction transaction=null;
         try {
-            Session session = sessionFactory.openSession();
-            Transaction transaction = session.beginTransaction();
+            session = sessionFactory.openSession();
+            transaction = session.beginTransaction();
+            System.out.println("ids len "+ids.length);
+            if (ids==null)return false;
             for (Integer id : ids) {
                 String hql = "from MainTable where id=:id";
                 Query query = session.createQuery(hql);
@@ -36,6 +40,7 @@ public class ManipulationServiceImpl implements ManipulationService {
             e.printStackTrace();
             return false;
         }
+        session.close();
         return true;
     }
 
@@ -166,16 +171,19 @@ public class ManipulationServiceImpl implements ManipulationService {
 
     @Override
     public Boolean removeStaff(String id) {
+        Session session=null;
         try {
-            Session session = sessionFactory.openSession();
+            session = sessionFactory.openSession();
             Transaction transaction = session.beginTransaction();
             StaffInfo staffInfo = session.get(StaffInfo.class, id);
             session.remove(staffInfo);
             transaction.commit();
-        }catch (Exception e){
+        }catch (Exception e) {
             e.printStackTrace();
             return false;
         }
+            session.close();
+
         return true;
     }
     private String generateId(){

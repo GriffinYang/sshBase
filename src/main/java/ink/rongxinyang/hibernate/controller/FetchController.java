@@ -39,10 +39,10 @@ public class FetchController {
         return getResponse(response,list);
     }
     @RequestMapping("export")
-    public Response export(HttpServletResponse resp){
+    public Response export(HttpServletResponse resp,MainTable mainTable){
         Response response = new Response();
         try{
-            helper.exportExcel(resp);
+            helper.exportExcel(resp,mainTable);
             response.setMsg("success");
             response.setData(200);
         }catch (Exception e){
