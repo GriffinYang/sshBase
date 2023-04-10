@@ -205,7 +205,6 @@ $(function (){
     if(e.target.value.trim()!="")
       e.target.classList.remove("data-error")
   })
-
   /*为开始日期添加事件*/
   $("#begin-time").change((e)=>{
     const begin=$(e.target)
@@ -409,7 +408,7 @@ $(function (){
             }else $("#add-info").removeClass("disabled")
             const ele=$(contentTemplate)
             ele.attr("staffid","emptyId")
-            window.scrollTo(0,50*scrollNum)
+            window.scrollTo(0,190*scrollNum)
             scrollNum++
             $(".add-info").append(ele)
 
@@ -708,34 +707,3 @@ function saveAll(){
 function generateOrder(){
   return new Date().getTime()
 }
-// function updateAllStaff(i,len){
-//   let order=generateOrder();
-//   let element = document.querySelectorAll(".staff");
-//   const id=element[i].getAttribute("staffid")
-//   const staff=$(element[i])
-//   $.ajax({
-//     type: 'post',
-//     url: "http://localhost:8080/beta/edit/updateStaff",
-//     data:{
-//       "staffId":id,
-//       "key":targetId,
-//       "staffType":staff.find("#staff-type").val(),
-//       "staffName":staff.find("#staff-name").val(),
-//       "identity":staff.find("#staff-identity").val(),
-//       "post":staff.find("#post").val(),
-//       "contact":staff.find("#contact").val(),
-//       "orgName": staff.find("#staff-type").val()!="2"?staff.find("#org-name").val():staff.find("#company-branch").val(),
-//       "staff_dept":staff.find("#department").val(),
-//       "order":order
-//     },
-//     success:(data)=>{
-//       if(data.code==200){
-//         if(i==len-1){
-//           confirmTarget=refreshPage;
-//           $("#log").text("更新成功！")
-//           $("#layer").removeClass("hidden")
-//         }
-//       }
-//     },
-//   });
-// }

@@ -2,7 +2,6 @@
 const home = document.querySelector('.back');
 const date=new Date()
 let confirmTarget;
-let staffUpdated=0;
 let staffElement=[];
 home.onclick = () => {
     window.open('index.html',"_self");
@@ -217,162 +216,6 @@ $(function (){
     $("#end-time-btn").click((e)=>{
         $(e.currentTarget).prev().trigger("select")
     })
-    // $.ajax({
-    //     url:`http://localhost:8080/beta/fetch/fetchCombine?id=${targetId}`,
-    //     success:(resp)=>{
-    //         const data=resp.data
-    //         $("#client-name").change((e)=>{
-    //             const value=$(e.target).val()
-    //             if(value.trim()=="")$(e.target).addClass("data-error")
-    //             else $(e.target).removeClass("data-error")
-    //         })
-    //         $("#nickname").change((e)=>{
-    //             const value=$(e.target).val()
-    //             if(value.trim()=="")$(e.target).addClass("data-error")
-    //             else $(e.target).removeClass("data-error")
-    //         })
-    //         $("#circumstance").change((e)=>{
-    //             const value=$(e.target).val()
-    //             if(value.trim()=="")$(e.target).addClass("data-error")
-    //             else $(e.target).removeClass("data-error")
-    //         })
-    //         $("#project-work-type").change((e)=>{
-    //             const value=$(e.target).val()
-    //             if(value.trim()=="")$(e.target).addClass("data-error")
-    //             else $(e.target).removeClass("data-error")
-    //         })
-    //         if (targetId==-1)return
-    //         targetObj.mainInfo=data[0][0];
-    //         data.forEach(staff=>{
-    //             targetObj.staffInfo.push(staff[1])
-    //         })
-    //         $("#client-name").val(targetObj.mainInfo.clientName)
-    //         $("#nickname").val(targetObj.mainInfo.nickName)
-    //         $("#project-name").val(targetObj.mainInfo.projectName)
-    //         $("#circumstance").val(targetObj.mainInfo.circumstance)
-    //         $("#project-work-type").val(targetObj.mainInfo.workType)
-    //         $("#address").val(targetObj.mainInfo.address)
-    //         $("#begin-time").val(parseDate(targetObj.mainInfo.startTime))
-    //         beginDateTime=new Date(parseDate(targetObj.mainInfo.startTime))
-    //         $("#end-time").val(parseDate(targetObj.mainInfo.endTime))
-    //         $("#description").val(targetObj.mainInfo.description)
-    //         $("#target").val(targetObj.mainInfo.purpose)
-    //         $("#content").val(targetObj.mainInfo.content)
-    //         $("#result").val(targetObj.mainInfo.result)
-    //         $("#department").val(targetObj.mainInfo.department)
-    //         $("#status").val(targetObj.mainInfo.status)
-    //         $("#chief").val(targetObj.mainInfo.chief)
-    //         targetObj.staffInfo.forEach(item=>{
-    //             const ele=$(contentTemplate)
-    //             if (item==null)return
-    //             const value=item.staffType
-    //             ele.attr("staffid",item.staffId)
-    //             ele.find("#staff-type").val(item.staffType)
-    //             ele.find("#staff-name").val(item.staffName)
-    //             ele.find("#identity").val(item.identity)
-    //             ele.find("#staff-identity").val(item.identity)
-    //             ele.find("#department").val(item.staff_dept)
-    //             ele.find("#org-name").val(item.orgName)
-    //             ele.find("#company-branch").val(item.orgName)
-    //             ele.find("#post").val(item.post)
-    //             ele.find("#contact").val(item.contact)
-    //             ele.find("#identity").change((e)=>{
-    //                 const value=$(e.target).val()
-    //                 if(value.trim()=="")$(e.target).addClass("data-error")
-    //                 else $(e.target).removeClass("data-error")
-    //             })
-    //             ele.find("#staff-type").change((e)=>{
-    //                 const value=$(e.target).val()
-    //                 if(value.trim()=="")$(e.target).addClass("data-error")
-    //                 else $(e.target).removeClass("data-error")
-    //             })
-    //             if(value=="1"){
-    //                 ele.find(".identity").removeClass("hidden")
-    //                 ele.find(".department").removeClass("hidden")
-    //                 ele.find(".org-name-container").addClass("hidden")
-    //                 ele.find(".org-name").addClass("hidden")
-    //                 ele.find(".post").addClass("hidden")
-    //                 ele.find(".contact").addClass("hidden")
-    //                 ele.find(".branch").addClass("hidden")
-    //             }else if(value=="2"){
-    //                 ele.find(".identity").addClass("hidden")
-    //                 ele.find(".department").addClass("hidden")
-    //                 ele.find(".org-name-container").removeClass("hidden")
-    //                 ele.find(".org-name").addClass("hidden")
-    //                 ele.find(".post").removeClass("hidden")
-    //                 ele.find(".contact").removeClass("hidden")
-    //                 ele.find(".branch").removeClass("hidden")
-    //             }else if(value==""){
-    //                 ele.find(".identity").addClass("hidden")
-    //                 ele.find(".department").addClass("hidden")
-    //                 ele.find(".org-name-container").addClass("hidden")
-    //                 ele.find(".org-name").addClass("hidden")
-    //                 ele.find(".post").addClass("hidden")
-    //                 ele.find(".contact").addClass("hidden")
-    //                 ele.find(".branch").addClass("hidden")
-    //             }else{
-    //                 ele.find(".identity").addClass("hidden")
-    //                 ele.find(".department").addClass("hidden")
-    //                 ele.find(".org-name-container").removeClass("hidden")
-    //                 ele.find(".org-name").removeClass("hidden")
-    //                 ele.find(".post").removeClass("hidden")
-    //                 ele.find(".contact").removeClass("hidden")
-    //                 ele.find(".branch").addClass("hidden")
-    //             }
-    //             $(".add-info").append(ele)
-    //             ele.find(".check-info").change(e=>{
-    //                 const status=e.target.checked
-    //                 if(status)
-    //                     $(e.target).closest("#staff-info").addClass("selected")
-    //                 else $(e.target).closest("#staff-info").removeClass("selected")
-    //             })
-    //             $(".staff-type").change((e)=>{
-    //                 const value=e.target.value
-    //                 const parent=$(e.target).closest("#staff-info")
-    //                 if(value=="1"){
-    //                     $(parent).children(".identity").removeClass("hidden")
-    //                     $(parent).children(".department").removeClass("hidden")
-    //                     $(parent).children(".org-name-container").addClass("hidden")
-    //                     $(parent).find(".org-name").addClass("hidden")
-    //                     $(parent).children(".post").addClass("hidden")
-    //                     $(parent).children(".contact").addClass("hidden")
-    //                     $(parent).find(".branch").addClass("hidden")
-    //                 }else if(value=="2"){
-    //                     $(parent).children(".identity").addClass("hidden")
-    //                     $(parent).children(".department").addClass("hidden")
-    //                     $(parent).children(".org-name-container").removeClass("hidden")
-    //                     $(parent).find(".org-name").addClass("hidden")
-    //                     $(parent).children(".post").removeClass("hidden")
-    //                     $(parent).children(".contact").removeClass("hidden")
-    //                     $(parent).find(".branch").removeClass("hidden")
-    //                 }else if(value==""){
-    //                     $(parent).children(".identity").addClass("hidden")
-    //                     $(parent).children(".department").addClass("hidden")
-    //                     $(parent).children(".org-name-container").addClass("hidden")
-    //                     $(parent).find(".org-name").addClass("hidden")
-    //                     $(parent).children(".post").addClass("hidden")
-    //                     $(parent).children(".contact").addClass("hidden")
-    //                     $(parent).find(".branch").addClass("hidden")
-    //                 }else{
-    //                     $(parent).children(".identity").addClass("hidden")
-    //                     $(parent).children(".department").addClass("hidden")
-    //                     $(parent).children(".org-name-container").removeClass("hidden")
-    //                     $(parent).find(".org-name").removeClass("hidden")
-    //                     $(parent).children(".post").removeClass("hidden")
-    //                     $(parent).children(".contact").removeClass("hidden")
-    //                     $(parent).find(".branch").addClass("hidden")
-    //                 }
-    //             })
-    //         })
-    //     },
-    //     timeout:5000,
-    //     error:()=>{
-    //         confirmTarget=skipFn;
-    //         $("#log").text("服务器异常!")
-    //         $("#layer").removeClass("hidden")
-    //         return
-    //     }
-    // })
     $("#add-info").click(()=>{
         $.ajax({
             url:`http://localhost:8080/beta/fetch/currentStatus?id=${targetId}`,
@@ -388,7 +231,7 @@ $(function (){
                     }else $("#add-info").removeClass("disabled")
                     const ele=$(contentTemplate)
                     ele.attr("staffid","emptyId")
-                    window.scrollTo(0,50*scrollNum)
+                    window.scrollTo(0,190*scrollNum)
                     scrollNum++
                     $(".add-info").append(ele)
 
@@ -677,35 +520,4 @@ function saveAll(){
 }
 function generateOrder(){
     return new Date().getTime()
-}
-function updateAllStaff(i,len){
-    let order=generateOrder();
-    let element = document.querySelectorAll(".staff");
-    const id=element[i].getAttribute("staffid")
-    const staff=$(element[i])
-    $.ajax({
-        type: 'post',
-        url: "http://localhost:8080/beta/edit/updateStaff",
-        data:{
-            "staffId":id,
-            "key":targetId,
-            "staffType":staff.find("#staff-type").val(),
-            "staffName":staff.find("#staff-name").val(),
-            "identity":staff.find("#staff-identity").val(),
-            "post":staff.find("#post").val(),
-            "contact":staff.find("#contact").val(),
-            "orgName": staff.find("#staff-type").val()!="2"?staff.find("#org-name").val():staff.find("#company-branch").val(),
-            "staff_dept":staff.find("#department").val(),
-            "order":order
-        },
-        success:(data)=>{
-            if(data.code==200){
-                if(i==len-1){
-                    confirmTarget=refreshPage;
-                    $("#log").text("更新成功！")
-                    $("#layer").removeClass("hidden")
-                }
-            }
-        },
-    });
 }
